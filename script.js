@@ -140,7 +140,7 @@ const CASES_DATA = [
         cipherType: "text",
         cipherTitle: "CÓDIGO DE NOTAS MUSICAIS",
         cipherDesc: "As notas na partitura (MI, LÁ, RÉ, SI) correspondem à cifra de letras (E-A-D-B). Qual palavra de 4 letras as notas formam ao reordenar?",
-        cipherAnswer: "BADA",
+        cipherAnswer: "BEAD",
         suspects: [
             { id: "s1", name: "Helena (Soprano)", role: "Primeira Cantora", alibi: "Estava no palco até às 21:10. Uso batom vermelho. Fui ao camarim do maestro às 21:20 e a porta já estava trancada." },
             { id: "s2", name: "Roberto (Pianista)", role: "Músico Auxiliar", alibi: "Estava afinando o piano no fosso da orquestra das 21:00 às 21:30. Ninguém me viu lá." },
