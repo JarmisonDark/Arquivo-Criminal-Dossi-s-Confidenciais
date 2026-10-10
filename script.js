@@ -163,7 +163,7 @@ const CASES_DATA = [
         cipherType: "mimic",
         cipherTitle: "ANÁLISE MÍMICA DO LÁDRÃO",
         cipherDesc: "Identifique o significado dos 3 gestos em sequência gravados pela câmera de segurança.",
-        mimicIcon: "🛞 ✂️ 📖",
+        mimicIcon: "🚗 ✂️ 📖",
         cipherAnswer: "DIRIGIR CORTAR LER",
         suspects: [
             { id: "s1", name: "Marcos (Pintor)", role: "Restaurador de Arte", alibi: "Minhas mãos estavam sujas de tinta amarela porque pintei o quadro da recepção às 21:30." },
