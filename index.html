@@ -32,33 +32,42 @@
             <h2 class="cover-subtitle">DOSSIÊS CONFIDENCIAIS</h2>
             <div class="cover-divider"></div>
             <p class="cover-intro">
-                9 casos não resolvidos aguardam em nossa gaveta de evidências. 
-                Analise cenas de crime, interprete mímicas gravadas em vídeo, 
-                decodifique cifras numéricas e interrogue suspeitos para emitir o mandado de prisão correto.
+                12 casos não resolvidos aguardam em nossa gaveta de evidências. 
+                Analise cenas com Luz UV, alinhe impressões digitais no Laboratório Papiloscópico, 
+                interprete mímicas gravadas, decodifique cifras e publique as manchetes no Jornal da Manhã!
             </p>
 
             <div class="cover-features">
-                <div class="feature-chip">🔍 Pistas & Evidências</div>
-                <div class="feature-chip">🎭 Mímicas & Códigos</div>
-                <div class="feature-chip">🗣️ Interrogatórios</div>
-                <div class="feature-chip">📜 9 Casos em Cadeia</div>
+                <div class="feature-chip">🔍 Perícia Digital (Minigame)</div>
+                <div class="feature-chip">📰 Jornal Noir da Vitória</div>
+                <div class="feature-chip">🌧️ Som de Chuva Ambiente</div>
+                <div class="feature-chip">⏱️ Cronômetro & Estrelas</div>
+                <div class="feature-chip">💡 Lupas de Dica</div>
+                <div class="feature-chip">📜 12 Casos Completos</div>
             </div>
 
             <button id="btn-start-game" class="btn-primary btn-large">INICIAR INVESTIGAÇÃO</button>
         </div>
     </section>
 
-    <!-- HEADER DO JOGO (Exibido após sair da capa) -->
+    <!-- HEADER DO JOGO -->
     <header class="top-bar" id="game-header" style="display: none;">
         <div class="badge">
             <span class="star">★</span>
-            <div class="badge-text">DEPARTAMENTO DE HOMICÍDIOS</div>
+            <div class="badge-text" id="player-rank-display">DETETIVE NOVATO</div>
         </div>
-        <h1 class="main-title">DOSSIÊS CONFIDENCIAIS</h1>
+        <div class="header-center">
+            <h1 class="main-title">DOSSIÊS CONFIDENCIAIS</h1>
+            <div class="header-stats">
+                <span id="hints-count-display">💡 Lupas: 3</span>
+                <span id="case-timer-display" style="display: none;">⏱️ 00:00</span>
+            </div>
+        </div>
         <div class="header-actions">
-            <button id="btn-home-cover" class="btn-sec">🏠 Capa Inicial</button>
+            <button id="btn-rain-toggle" class="btn-sec">🌧️ Chuva: OFF</button>
             <button id="btn-sound-toggle" class="btn-sec">🔊 Som: ON</button>
-            <button id="btn-reset-game" class="btn-sec danger">↺ Resetar Progresso</button>
+            <button id="btn-home-cover" class="btn-sec">🏠 Capa</button>
+            <button id="btn-reset-game" class="btn-sec danger">↺ Resetar</button>
         </div>
     </header>
 
@@ -87,17 +96,21 @@
 
             <div class="dossier-wrapper">
                 <div class="tabs-header">
-                    <button class="tab-btn active" data-tab="evidences">1. Pistas & Fotos</button>
-                    <button class="tab-btn" data-tab="cipher">2. Descriptografia / Mímica</button>
-                    <button class="tab-btn" data-tab="interrogations">3. Interrogatório</button>
-                    <button class="tab-btn highlight" data-tab="warrant">4. Mandado de Prisão</button>
+                    <button class="tab-btn active" data-tab="evidences">1. Pistas & Fotos (UV)</button>
+                    <button class="tab-btn" data-tab="fingerprint">2. Perícia Digital 🧬</button>
+                    <button class="tab-btn" data-tab="cipher">3. Descriptografia / Mímica</button>
+                    <button class="tab-btn" data-tab="interrogations">4. Interrogatório</button>
+                    <button class="tab-btn highlight" data-tab="warrant">5. Mandado de Prisão</button>
                 </div>
 
                 <div class="tab-contents">
                     <!-- ABA 1: EVIDÊNCIAS -->
                     <div id="tab-evidences" class="tab-content active">
                         <div class="dossier-section">
-                            <h3>RELATÓRIO DA CENA DO CRIME</h3>
+                            <div class="section-title-bar">
+                                <h3>RELATÓRIO DA CENA DO CRIME</h3>
+                                <button id="btn-toggle-uv" class="btn-sec uv-btn">💡 Ativar Luz UV</button>
+                            </div>
                             <p id="crime-report-text" class="typewriter-text"></p>
                             
                             <div id="evidence-board" class="evidence-board">
@@ -106,10 +119,39 @@
                         </div>
                     </div>
 
-                    <!-- ABA 2: ENIGMA DE TEXTO OU MÍMICA -->
+                    <!-- ABA 2: MINIGAME DE PERÍCIA DIGITAL -->
+                    <div id="tab-fingerprint" class="tab-content">
+                        <div class="dossier-section">
+                            <h3>LABORATÓRIO PAPILOSCÓPICO</h3>
+                            <p>Ajuste os controles de frequência e ângulo para alinhar a digital coletada na cena com a amostra do banco de dados.</p>
+                            
+                            <div class="fingerprint-minigame-box">
+                                <div class="scanner-screen">
+                                    <div class="fp-layer target-layer" id="fp-target">🧬</div>
+                                    <div class="fp-layer user-layer" id="fp-user">🧬</div>
+                                    <div class="scan-laser"></div>
+                                </div>
+
+                                <div class="scanner-controls">
+                                    <label>ROTAÇÃO DO SENSOR: <span id="angle-val">0°</span></label>
+                                    <input type="range" id="fp-angle" min="0" max="360" value="45">
+
+                                    <label>FREQUÊNCIA DE LUZ: <span id="zoom-val">1.5x</span></label>
+                                    <input type="range" id="fp-zoom" min="8" max="20" value="15">
+
+                                    <button id="btn-verify-fp" class="btn-primary" style="margin-top: 15px;">COMPARAR DIGITAL</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ABA 3: ENIGMA DE TEXTO OU MÍMICA -->
                     <div id="tab-cipher" class="tab-content">
                         <div class="dossier-section">
-                            <h3 id="cipher-title">ANÁLISE DE CÓDIGO</h3>
+                            <div class="section-title-bar">
+                                <h3 id="cipher-title">ANÁLISE DE CÓDIGO</h3>
+                                <button id="btn-use-hint" class="btn-sec hint-btn">💡 Usar Lupa de Dica</button>
+                            </div>
                             <p id="cipher-desc"></p>
                             
                             <div class="cipher-box" id="cipher-container">
@@ -118,19 +160,19 @@
                         </div>
                     </div>
 
-                    <!-- ABA 3: INTERROGATÓRIO -->
+                    <!-- ABA 4: INTERROGATÓRIO DINÂMICO -->
                     <div id="tab-interrogations" class="tab-content">
                         <div class="dossier-section">
-                            <h3>DEPOIMENTO DOS SUSPEITOS</h3>
-                            <p>Analise os horários e contradições com base nas pistas encontradas.</p>
+                            <h3>SALA DE INTERROGATÓRIO</h3>
+                            <p>Selecione um suspeito e escolha as perguntas estratégicas para pressioná-lo.</p>
                             
                             <div id="suspects-list" class="suspects-grid">
-                                <!-- Cards dos Suspeitos -->
+                                <!-- Cards dos Suspeitos com sistema de perguntas -->
                             </div>
                         </div>
                     </div>
 
-                    <!-- ABA 4: MANDADO DE PRISÃO -->
+                    <!-- ABA 5: MANDADO DE PRISÃO -->
                     <div id="tab-warrant" class="tab-content">
                         <div class="dossier-section warrant-paper">
                             <div class="stamp-confidential">CONFIDENCIAL</div>
@@ -154,34 +196,45 @@
             </div>
         </section>
 
-        <!-- TELA 3: TELA DE VITÓRIA DE CASO INDIVIDUAL -->
+        <!-- TELA 3: TELA DE VITÓRIA COM JORNAL NOIR DA MANHÃ -->
         <section id="victory-screen" class="view-screen">
-            <div class="victory-card">
-                <div class="solved-stamp">CASO RESOLVIDO</div>
-                <h2 id="victory-case-title">CASO FECHADO</h2>
-                <p id="victory-summary"></p>
-                <div class="stars-earned" id="stars-display">★★★</div>
-                <div class="victory-actions">
+            <div class="newspaper-wrapper">
+                <div class="newspaper-header">
+                    <div class="news-date">EDIÇÃO EXTRA - GAZETA POLICIAL</div>
+                    <h1 class="news-paper-title">GAZETA DA CAPITAL</h1>
+                    <div class="news-line"></div>
+                </div>
+
+                <div class="newspaper-body">
+                    <div class="solved-stamp">CASO RESOLVIDO</div>
+                    <h2 id="news-headline">DETETIVE RESOLVE MISTÉRIO!</h2>
+                    <div class="newspaper-photo" id="news-photo">📷 CENA DO CRIME</div>
+                    <p id="victory-summary" class="news-text"></p>
+                    <div class="stars-earned" id="stars-display">★★★</div>
+                    <div id="victory-time-stats" class="time-stats">Tempo: 00:00</div>
+                </div>
+
+                <div class="newspaper-footer">
                     <button id="btn-next-case" class="btn-primary">PRÓXIMO CASO →</button>
                     <button id="btn-victory-menu" class="btn-sec">Voltar ao Menu</button>
                 </div>
             </div>
         </section>
 
-        <!-- TELA 4: TELA FINAL DE CONCLUSÃO DA CAMPANHA (TODOS OS CASOS RESOLVIDOS) -->
+        <!-- TELA 4: TELA FINAL DE CONCLUSÃO DA CAMPANHA -->
         <section id="campaign-finish-screen" class="view-screen">
             <div class="victory-card finish-card">
                 <div class="finish-badge">🏆 PROMOÇÃO DE CARGO 🏆</div>
                 <div class="solved-stamp gold-stamp">DETETIVE CHEFE</div>
-                <h2>CAMPANHA CONCLUÍDA COM SUCESSO!</h2>
+                <h2>TODOS OS 12 DOSSIÊS RESOLVIDOS!</h2>
                 <p>
-                    Parabéns, Detetive! Você desvendou todos os <strong>9 casos confidenciais</strong> do nosso departamento, 
-                    decodificou todas as mímicas e mandou todos os culpados para a prisão.
+                    Parabéns, Detetive Chefe! Você desvendou todos os <strong>12 casos confidenciais</strong> da nossa delegacia, 
+                    alinhou todas as digitais e fechou os arquivos da capital!
                 </p>
 
                 <div class="coming-soon-box">
                     <div class="box-title">📁 NOVOS CASOS EM BREVE</div>
-                    <p>Nossos agentes de campo estão reunindo novas evidências, enigmas e cenas de crime. Em breve, novas fases serão adicionadas ao seu arquivo!</p>
+                    <p>Nossos agentes de campo continuam nas ruas. Novos mistérios serão arquivados em atualizações futuras!</p>
                 </div>
 
                 <div class="victory-actions">
@@ -192,7 +245,7 @@
     </main>
 
     <footer class="footer-bar">
-        <span>SISTEMA DE ARQUIVO CRIMINAL v3.2 - USO EXCLUSIVO DA POLÍCIA</span>
+        <span>SISTEMA DE ARQUIVO CRIMINAL v5.0 - USO EXCLUSIVO DA POLÍCIA</span>
     </footer>
 
     <script src="script.js"></script>
